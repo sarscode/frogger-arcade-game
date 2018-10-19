@@ -24,9 +24,9 @@ class Enemy {
     // check collision with player object
     if (
       player.x < this.x + 60 &&
-      player.x + 37 > this.x &&
-      player.y < this.y + 25 &&
-      30 + player.y > this.y
+      player.x + 65 > this.x &&
+      player.y < this.y + 65 &&
+      40 + player.y > this.y
     ) {
       // console.log('collided');
       player.reset();
@@ -42,9 +42,9 @@ class Player {
   constructor(x, y) {
     this.x = x;
     this.y = y;
-    this.sprite = 'images/char-boy.png';
+    this.sprite = 'images/char-princess-girl.png';
   }
-  // updates player object position based on kep press
+  // updates player object position based on arrow key press
   update(keyPress) {
     if (keyPress === 'left' && this.x > 0) {
       this.x -= 100;
@@ -68,9 +68,23 @@ class Player {
   reset() {
     this.x = 200;
     this.y = 400;
+    lives.pop();
+    // updateLive()
   }
   render() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+  }
+}
+
+class Life {
+  constructor(x, y) {
+    this.x = x;
+    this.y = y;
+    this.sprite = 'images/Heart.png';
+  }
+
+  render() {
+    ctx.drawImage(Resources.get(this.sprite), this.x, this.y, 20, 40);
   }
 }
 
@@ -80,13 +94,16 @@ class Player {
 
 // Enemy Instances
 var allEnemies = [
-  new Enemy(-200, 60, 40),
-  new Enemy(-200, 145, 35),
-  new Enemy(-200, 230, 30)
+  new Enemy(0, 60, 120),
+  new Enemy(0, 145, 85),
+  new Enemy(0, 230, 115)
 ];
 
 // Player Object
-var player = new Player(200, 400);
+const player = new Player(200, 400);
+
+// Life Object
+const lives = [new Life(10, 540), new Life(30, 540), new Life(50, 540)];
 
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
