@@ -13,6 +13,24 @@ class Enemy {
   }
   update(dt) {
     this.x += this.speed * dt;
+    // console.log(this.x);
+
+    // reset position of enemy to move across again when it goes off the canvas
+    if (this.x > 550) {
+      this.x = -100;
+      this.speed = 100 + Math.floor(Math.random() * this.speed);
+    }
+
+    // check collision with player object
+    if (
+      player.x < this.x + 60 &&
+      player.x + 37 > this.x &&
+      player.y < this.y + 25 &&
+      30 + player.y > this.y
+    ) {
+      // console.log('collided');
+      player.reset();
+    }
   }
   render() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
@@ -26,23 +44,30 @@ class Player {
     this.y = y;
     this.sprite = 'images/char-boy.png';
   }
+  // updates player object position based on kep press
   update(keyPress) {
     if (keyPress === 'left' && this.x > 0) {
       this.x -= 100;
-      //   console.log(player.x + 'left');
+      // console.log(player.x + 'left');
     } else if (keyPress === 'up' && this.y > 0) {
       this.y -= 90;
-      //   console.log(player.y + 'up');
+      // console.log(player.y + 'up');
     } else if (keyPress === 'right' && this.x < 400) {
       this.x += 100;
-      //   console.log(player.x + 'right');
+      // console.log(player.x + 'right');
     } else if (keyPress === 'down' && this.y < 400) {
       this.y += 90;
-      //   console.log(player.y + 'down');
+      // console.log(player.y + 'down');
     }
   }
+
+  // collects the key pressed by user
   handleInput(keyPress) {
     this.update(keyPress);
+  }
+  reset() {
+    this.x = 200;
+    this.y = 400;
   }
   render() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
@@ -55,9 +80,9 @@ class Player {
 
 // Enemy Instances
 var allEnemies = [
-  new Enemy(-200, 60, 30),
-  new Enemy(-200, 145, 25),
-  new Enemy(-200, 230, 35)
+  new Enemy(-200, 60, 40),
+  new Enemy(-200, 145, 35),
+  new Enemy(-200, 230, 30)
 ];
 
 // Player Object
