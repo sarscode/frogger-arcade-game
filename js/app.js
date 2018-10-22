@@ -19,6 +19,18 @@ function gameOver() {
         <h1>Game Over !!!</h1>
         <p>You're here because you lost all 3 lives</p>
         <h3>Play again to win the game</h3>
+        <p>You Score is ${scoreBoard.score}</p>
+        <button class="btn start-btn" onClick="startGame()"> Play Again</button>
+    `;
+}
+
+function win() {
+  modal.classList.toggle('hide');
+  close.classList.add('hide');
+  modalContent.innerHTML = `
+        <h1>You completed the task</h1>
+        <p>Princess Frogger says thanks for helping out</p>
+        <p>You Score is ${scoreBoard.score}</p>
         <button class="btn start-btn" onClick="startGame()"> Play Again</button>
     `;
 }
@@ -27,6 +39,7 @@ function startGame() {
   modal.classList.toggle('hide');
   console.log('startGame');
   lives.push(new Life(10, 540), new Life(30, 540), new Life(50, 540));
+  scoreBoard.score = 0;
 }
 
 /*
@@ -99,8 +112,19 @@ class Player {
       this.x = 200;
       this.y = 400;
       chars.shift();
-      this.sprite = chars[0];
       scoreBoard.update();
+      if (chars.length === 0) {
+        setTimeout(win, 200);
+        chars.push(
+          'images/char-princess-girl.png',
+          'images/char-boy.png',
+          'images/char-cat-girl.png',
+          'images/char-horn-girl.png',
+          'images/char-pink-girl.png'
+        );
+      }
+      this.sprite = chars[0];
+      // scoreBoard.update();
       // console.log(chars);
     }
   }
