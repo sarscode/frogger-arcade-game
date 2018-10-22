@@ -14,10 +14,19 @@ startBtn.addEventListener('click', () => {
 
 function gameOver() {
   modal.classList.toggle('hide');
+  close.classList.add('hide');
   modalContent.innerHTML = `
         <h1>Game Over !!!</h1>
-        <button class="btn start-btn"> Play Again</button>
+        <p>You're here because you lost all 3 lives</p>
+        <h3>Play again to win the game</h3>
+        <button class="btn start-btn" onClick="startGame()"> Play Again</button>
     `;
+}
+
+function startGame() {
+  modal.classList.toggle('hide');
+  console.log('startGame');
+  lives.push(new Life(10, 540), new Life(30, 540), new Life(50, 540));
 }
 
 /*
@@ -147,7 +156,7 @@ class ScoreBoard {
  */
 
 // Enemy Instances
-var allEnemies = [
+const allEnemies = [
   new Enemy(0, 60, 150),
   new Enemy(0, 145, 115),
   new Enemy(0, 230, 125)
