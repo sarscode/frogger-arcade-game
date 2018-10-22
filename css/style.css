@@ -1,9 +1,62 @@
 body {
+  font-family: monospace;
   margin: 0;
   text-align: center;
 }
 
-.header {
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* .header {
   background: blue;
   height: 100px;
+} */
+
+.btn {
+  background: blue;
+  border: none;
+  border-radius: 8px;
+  color: #fff;
+  cursor: pointer;
+  padding: 0.7em 2em;
+}
+
+.modal {
+  background-color: #d4f4dd;
+  border-radius: 5px;
+  width: 420px;
+  height: 410px;
+  margin: 0 auto;
+  padding: 1em 2em;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 180px;
+}
+
+.hide {
+  display: none;
+}
+.show {
+  display: block;
+}
+
+.close {
+  background: #e1077f;
+  border: none;
+  border-radius: 50%;
+  box-shadow: 1px 1px 3px #000;
+  color: #e8fb2d;
+  cursor: pointer;
+  line-height: 25px;
+  width: 25px;
+  text-decoration: none;
+  font-weight: bold;
+  position: absolute;
+  right: -10px;
+  text-align: center;
+  top: -10px;
 }

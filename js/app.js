@@ -1,3 +1,25 @@
+// Global variables
+const modal = document.querySelector('.modal');
+const modalContent = document.querySelector('.modal-content');
+const close = document.querySelector('.close');
+const startBtn = document.querySelector('.start-btn');
+
+close.addEventListener('click', () => {
+  modal.classList.add('hide');
+});
+
+startBtn.addEventListener('click', () => {
+  modal.classList.toggle('hide');
+});
+
+function gameOver() {
+  modal.classList.toggle('hide');
+  modalContent.innerHTML = `
+        <h1>Game Over !!!</h1>
+        <button class="btn start-btn"> Play Again</button>
+    `;
+}
+
 /*
  * Class creation
  */
@@ -30,6 +52,9 @@ class Enemy {
     ) {
       // console.log('collided');
       player.reset();
+      if (scoreBoard.score >= 100) {
+        scoreBoard.score -= 100;
+      }
     }
   }
   render() {
@@ -43,6 +68,7 @@ class Player {
     this.x = x;
     this.y = y;
     this.sprite = 'images/char-princess-girl.png';
+    // this.sprite = chars[0];
   }
   // updates player object position based on arrow key press
   update(keyPress) {
@@ -51,13 +77,22 @@ class Player {
       // console.log(player.x + 'left');
     } else if (keyPress === 'up' && this.y > 0) {
       this.y -= 90;
-      // console.log(player.y + 'up');
+      //   console.log(player.y + 'up');
     } else if (keyPress === 'right' && this.x < 400) {
       this.x += 100;
       // console.log(player.x + 'right');
     } else if (keyPress === 'down' && this.y < 400) {
       this.y += 90;
-      // console.log(player.y + 'down');
+      //   console.log(player.y + 'down');
+    }
+
+    if (this.y <= 0) {
+      this.x = 200;
+      this.y = 400;
+      chars.shift();
+      this.sprite = chars[0];
+      scoreBoard.update();
+      // console.log(chars);
     }
   }
 
@@ -68,14 +103,18 @@ class Player {
   reset() {
     this.x = 200;
     this.y = 400;
-    lives.pop();
-    // updateLive()
+    if (lives.length === 0) {
+      gameOver();
+    } else {
+      lives.pop();
+    }
   }
   render() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
   }
 }
 
+// Player lives to show in the canvas area
 class Life {
   constructor(x, y) {
     this.x = x;
@@ -88,15 +127,30 @@ class Life {
   }
 }
 
+class ScoreBoard {
+  constructor(x, y) {
+    this.x = x;
+    this.y = y;
+    this.score = 0;
+  }
+  update() {
+    this.score += 200;
+  }
+  render() {
+    ctx.font = 'bold 20px serif';
+    ctx.fillText(this.score, this.x, this.y);
+  }
+}
+
 /*
  * Object Instances
  */
 
 // Enemy Instances
 var allEnemies = [
-  new Enemy(0, 60, 120),
-  new Enemy(0, 145, 85),
-  new Enemy(0, 230, 115)
+  new Enemy(0, 60, 150),
+  new Enemy(0, 145, 115),
+  new Enemy(0, 230, 125)
 ];
 
 // Player Object
@@ -104,6 +158,26 @@ const player = new Player(200, 400);
 
 // Life Object
 const lives = [new Life(10, 540), new Life(30, 540), new Life(50, 540)];
+
+// Score Board
+const scoreBoard = new ScoreBoard(410, 570);
+
+// Player characters
+const chars = [
+  'images/char-princess-girl.png',
+  'images/char-boy.png',
+  'images/char-cat-girl.png',
+  'images/char-horn-girl.png',
+  'images/char-pink-girl.png'
+];
+
+const nextPlayer = (function() {
+  let index;
+  index = 0;
+  return () => {
+    index++;
+  };
+})();
 
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
