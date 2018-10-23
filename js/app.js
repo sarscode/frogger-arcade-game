@@ -27,6 +27,13 @@ function gameOver() {
 function win() {
   modal.classList.toggle('hide');
   close.classList.add('hide');
+  // chars.push(
+  //   'images/char-princess-girl.png',
+  //   'images/char-boy.png',
+  //   'images/char-cat-girl.png',
+  //   'images/char-horn-girl.png',
+  //   'images/char-pink-girl.png'
+  // );
   modalContent.innerHTML = `
         <h1>You completed the task</h1>
         <p>Princess Frogger says thanks for helping out</p>
@@ -37,9 +44,7 @@ function win() {
 
 function startGame() {
   modal.classList.toggle('hide');
-  console.log('startGame');
-  lives.push(new Life(10, 540), new Life(30, 540), new Life(50, 540));
-  scoreBoard.score = 0;
+  location.reload();
 }
 
 /*
@@ -115,13 +120,6 @@ class Player {
       scoreBoard.update();
       if (chars.length === 0) {
         setTimeout(win, 200);
-        chars.push(
-          'images/char-princess-girl.png',
-          'images/char-boy.png',
-          'images/char-cat-girl.png',
-          'images/char-horn-girl.png',
-          'images/char-pink-girl.png'
-        );
       }
       this.sprite = chars[0];
       // scoreBoard.update();
@@ -165,13 +163,15 @@ class ScoreBoard {
     this.x = x;
     this.y = y;
     this.score = 0;
+    this.scoreDisplay = `Score: ${this.score}`;
   }
   update() {
     this.score += 200;
+    this.scoreDisplay = `Score: ${this.score}`;
   }
   render() {
     ctx.font = 'bold 20px serif';
-    ctx.fillText(this.score, this.x, this.y);
+    ctx.fillText(this.scoreDisplay, this.x, this.y);
   }
 }
 
